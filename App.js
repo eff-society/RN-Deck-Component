@@ -1,3 +1,6 @@
+
+//  ** This file is only attached for the purpose of recreating the preview. Use the Deck.js in /src. **
+
 import React from 'react';
 import {StyleSheet, View,Text} from 'react-native';
 import {Card, Button} from 'react-native-elements';
