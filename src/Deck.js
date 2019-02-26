@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Animated, PanResponder, Dimensions, LayoutAnimation, UIManager} from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const SWIPE_THRESHOLD = 0.5 * SCREEN_WIDTH;
+const SWIPE_THRESHOLD = 0.35 * SCREEN_WIDTH;
 
 class Deck extends Component {
 
