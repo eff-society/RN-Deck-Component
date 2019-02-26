@@ -9,6 +9,7 @@ class Deck extends Component {
     static defaultProps = {
         onSwipeLeft: () => {},
         onSwipeRight: () => {},
+        keyProp: 'id'
     };
     constructor(props) {
         super(props);
@@ -87,13 +88,13 @@ class Deck extends Component {
                 } else if(index === this.state.index) {
                     return (
                         <Animated.View {...this.state.panResponder.panHandlers} 
-                        style={[this.animatedCardStyle(), styles.cardStyle]} key={item.id}>
+                        style={[this.animatedCardStyle(), styles.cardStyle]} key={item[this.props.keyProp]}>
                             {this.props.renderCard(item)}
                         </Animated.View>
                     );
                 }
                 return (
-                    <Animated.View key={item.id} 
+                    <Animated.View key={item[this.props.keyProp]} 
                     style={[styles.cardStyle, {top: 10 * (index - this.state.index), zIndex: 0}]}>
                         {this.props.renderCard(item)}
                     </Animated.View>
