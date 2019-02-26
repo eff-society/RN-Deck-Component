@@ -1,2 +1,2 @@
 # RN-Deck-Component
-## A fully swipe-animated, tinder-like, reusable deck component for React Native.
+## A swipeable, tinder-like animated deck component for React Native.
