@@ -101,9 +101,7 @@ class Deck extends Component {
     }
 
     render() {
-        return (
-            this.renderCards()
-        );
+        return this.renderCards();
     }
 }
 
