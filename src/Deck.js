@@ -9,7 +9,8 @@ class Deck extends Component {
     static defaultProps = {
         onSwipeLeft: () => {},
         onSwipeRight: () => {},
-        keyProp: 'id'
+        keyProp: 'id',
+        renderMore: false
     };
     constructor(props) {
         super(props);
@@ -77,6 +78,9 @@ class Deck extends Component {
 
     renderCards() {
         if(this.state.index >= this.props.data.length) {
+            if(this.props.renderMore) {
+                return this.props.renderMoreCards();
+            }
             return this.props.renderNoMoreCards();
         }
         return this.props.data.map((item, index) => 
