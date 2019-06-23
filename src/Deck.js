@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { View, Animated, PanResponder, Dimensions, LayoutAnimation, UIManager } from 'react-native';
+import { Animated, PanResponder, Dimensions, LayoutAnimation, UIManager } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.35 * SCREEN_WIDTH;
 
-class Deck extends Component {
+class SwipeDeck extends Component {
 
     static defaultProps = {
         onSwipeLeft: () => {},
         onSwipeRight: () => {},
         keyProp: 'id',
-        renderMore: false
+        renderCount: 3
     };
+    
     constructor(props) {
         super(props);
         const position = new Animated.ValueXY();
@@ -73,31 +74,34 @@ class Deck extends Component {
             inputRange: [-SCREEN_WIDTH, 0, SCREEN_WIDTH],
             outputRange: ['-60deg', '0deg', '60deg']
         });
-        return { ...position.getLayout(), transform: [{ rotate }] };
+        return {...position.getLayout(), 
+            transform: [{ rotate }]
+        };
     }
 
+    sliceData() {
+        let { data, renderCount } = this.props;
+        let { index } = this.state;
+        return data.slice(index, index + renderCount);
+    } 
+
     renderCards() {
-        if(this.state.index >= this.props.data.length) {
-            if(this.props.renderMore) {
-                return this.props.renderMoreCards();
-            }
-            return this.props.renderNoMoreCards();
-        }
-        return this.props.data.map((item, index) => 
-            {
-                if(index < this.state.index) {
-                    return null;
-                } else if(index === this.state.index) {
+        let selectedItems = this.sliceData();
+        return selectedItems.map((item, index) => 
+            { 
+                if(index === 0) {
+                    selectedItems = this.sliceData();
                     return (
                         <Animated.View {...this.state.panResponder.panHandlers} 
-                        style={[this.animatedCardStyle(), styles.cardStyle]} key={item[this.props.keyProp]}>
-                            { this.props.renderCard(item) }
+                        style={[this.animatedCardStyle(), styles.cardStyle]} 
+                        key={item[this.props.keyProp]}>
+                            {this.props.renderCard(item)}
                         </Animated.View>
                     );
                 }
                 return (
                     <Animated.View key={item[this.props.keyProp]} 
-                    style={[styles.cardStyle, {top: 10 * (index - this.state.index), zIndex: 0}]}>
+                    style={[styles.cardStyle, { top: 10 * index, paddingRight: 10 * index, paddingLeft: 10 * index, zIndex: 0 }]}>
                         { this.props.renderCard(item) }
                     </Animated.View>
                 );
@@ -116,4 +120,4 @@ const styles = {
     }
 };
 
-export default Deck;
+export default SwipeDeck;
